@@ -1,0 +1,71 @@
+import React from 'react'
+import loadable from 'loadable-components'
+import { Button, Box } from '@material-ui/core'
+import Axios from 'axios'
+
+const Chart = loadable(() => import('react-apexcharts'))
+
+export default class CandlesChart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      options: {
+        chart: {
+          id: 'test-candels',
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '10px',
+          },
+        },
+      },
+      series: [{
+        data: [],
+      }],
+    }
+
+    this.fetchData = this.fetchData.bind(this)
+  }
+
+  async fetchData() {
+    let { data } = await Axios.get('https://api-pub.bitfinex.com/v2/candles/trade:3h:tBTCUSD/hist', {
+      params: {
+      },
+    })
+
+    data = data.map((candle) => {
+      const high = candle[3]
+      const close = candle[2]
+
+      candle[3] = candle[4]
+      candle[4] = close
+      candle[2] = high
+      candle.pop()
+
+      return candle
+    })
+
+    this.setState((prevState) => ({
+      ...prevState,
+      series: [{
+        data,
+      }],
+    }))
+  }
+
+  render() {
+    return (
+      <Box>
+        <Chart
+          options={this.state.options}
+          series={this.state.series}
+          type="candlestick"
+          width="1100"
+        />
+        <Button variant="contained" color="primary" onClick={this.fetchData}>
+          Update
+        </Button>
+      </Box>
+    )
+  }
+}
