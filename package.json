@@ -5,11 +5,44 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
+    "release": "./node_modules/.bin/standard-version",
+    "changelog": "./node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "test": "./node_modules/.bin/jest --watchAll --detectOpenHandles"
   },
   "dependencies": {
     "next": "9.4.4",
     "react": "16.13.1",
     "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "conventional-changelog-cli": "^2.0.34",
+    "eslint": "^7.3.1",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "husky": "^4.2.5",
+    "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "standard-version": "^8.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "./node_modules/.bin/prettier --check --write --loglevel warn",
+      "./node_modules/.bin/eslint --fix --ignore-path .gitignore",
+      "./node_modules/.bin/jest --findRelatedTests"
+    ]
   }
 }
