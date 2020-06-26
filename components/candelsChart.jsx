@@ -33,8 +33,8 @@ export default class CandlesChart extends React.Component {
 
   fetchData() {
     const obj = this
-    console.log('Connected to: ' + process.env.TEST_SERVER_URL || 'https://mysterious-brook-83261.herokuapp.com/')
-    
+    console.log(`Connected to: ${process.env.TEST_SERVER_URL}` || 'https://mysterious-brook-83261.herokuapp.com/')
+
     Axios
       .get(`${process.env.TEST_SERVER_URL || 'https://mysterious-brook-83261.herokuapp.com/'}/api/chart`)
       .then(({ data }) => {
