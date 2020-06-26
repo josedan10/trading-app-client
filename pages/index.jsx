@@ -19,8 +19,6 @@ export default function Home() {
       <main>
         <h1 className="title">
           <a href="#">NoPythonBot</a>
-          {' '}
-          Dashboard!
         </h1>
 
         <CandlesChart />
