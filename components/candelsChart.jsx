@@ -32,9 +32,9 @@ export default class CandlesChart extends React.Component {
   }
 
   fetchData() {
-    console.log(process.env)
+    const obj = this
     Axios
-      .get(`${process.env.APP_ENV === 'debug' ? process.env.TEST_SERVER_URL : process.env.SERVER_URL}/api/chart`)
+      .get(`${process.env.TEST_SERVER_URL || 'https://mysterious-brook-83261.herokuapp.com/'}/api/chart`)
       .then(({ data }) => {
         const dataArray = data.map((candle) => {
           const high = candle[3]
@@ -48,12 +48,12 @@ export default class CandlesChart extends React.Component {
           return candle
         })
 
-        this.setState((prevState) => ({
+        obj.setState((prevState) => ({
           ...prevState,
           series: [{
             data: dataArray,
           }],
-        })).bind(this)
+        }))
       })
       .catch((err) => console.error(err))
   }
