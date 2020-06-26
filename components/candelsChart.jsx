@@ -37,8 +37,6 @@ export default class CandlesChart extends React.Component {
       },
     })
 
-    console.log(data)
-
     data = data.map((candle) => {
       const high = candle[3]
       const close = candle[2]
