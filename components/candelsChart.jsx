@@ -31,32 +31,30 @@ export default class CandlesChart extends React.Component {
     this.fetchData()
   }
 
-  async fetchData() {
-    let { data } = await Axios.get((process.env.APP_ENV === 'debug' ? process.env.TEST_SERVER_URL : process.env.SERVER_URL), {
-      params: {
-      },
-    })
+  fetchData() {
+    Axios
+      .get((process.env.APP_ENV === 'debug' ? process.env.TEST_SERVER_URL : process.env.SERVER_URL))
+      .then(({ data }) => {
+        const dataArray = data.map((candle) => {
+          const high = candle[3]
+          const close = candle[2]
 
-    console.log(data)
+          candle[3] = candle[4]
+          candle[4] = close
+          candle[2] = high
+          candle.pop()
 
-    data = data.map((candle) => {
-      const high = candle[3]
-      const close = candle[2]
+          return candle
+        })
 
-      candle[3] = candle[4]
-      candle[4] = close
-      candle[2] = high
-      candle.pop()
-
-      return candle
-    })
-
-    this.setState((prevState) => ({
-      ...prevState,
-      series: [{
-        data,
-      }],
-    }))
+        this.setState((prevState) => ({
+          ...prevState,
+          series: [{
+            data: dataArray,
+          }],
+        })).bind(this)
+      })
+      .catch((err) => console.error(err))
   }
 
   render() {
