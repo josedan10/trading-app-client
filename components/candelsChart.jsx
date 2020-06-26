@@ -35,7 +35,7 @@ export default class CandlesChart extends React.Component {
     const obj = this
 
     Axios
-      .get(`${'https://mysterious-brook-83261.herokuapp.com/'}/api/chart`)
+      .get(`${'https://mysterious-brook-83261.herokuapp.com'}/api/chart`)
       .then(({ data }) => {
         const dataArray = data.map((candle) => {
           const high = candle[3]
