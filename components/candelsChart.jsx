@@ -27,11 +27,17 @@ export default class CandlesChart extends React.Component {
     this.fetchData = this.fetchData.bind(this)
   }
 
+  componentDidMount() {
+    this.fetchData()
+  }
+
   async fetchData() {
-    let { data } = await Axios.get('https://api-pub.bitfinex.com/v2/candles/trade:3h:tBTCUSD/hist', {
+    let { data } = await Axios.get((process.env.APP_ENV === 'debug' ? process.env.TEST_SERVER_URL : process.env.SERVER_URL), {
       params: {
       },
     })
+
+    console.log(data)
 
     data = data.map((candle) => {
       const high = candle[3]
