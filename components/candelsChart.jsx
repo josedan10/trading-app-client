@@ -69,7 +69,7 @@ export default class CandlesChart extends React.Component {
 
     Axios.get(
       `${
-        process.env.TEST_SERVER_URL ||
+        // process.env.TEST_SERVER_URL ||
         'https://mysterious-brook-83261.herokuapp.com'
       }/api/chart`,
       {
