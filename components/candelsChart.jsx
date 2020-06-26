@@ -33,7 +33,7 @@ export default class CandlesChart extends React.Component {
 
   fetchData() {
     Axios
-      .get((process.env.APP_ENV === 'debug' ? process.env.TEST_SERVER_URL : process.env.SERVER_URL))
+      .get(`${process.env.APP_ENV === 'debug' ? process.env.TEST_SERVER_URL : process.env.SERVER_URL}/api/chart`)
       .then(({ data }) => {
         const dataArray = data.map((candle) => {
           const high = candle[3]
